@@ -12,7 +12,7 @@
 :root.hc{--navy:#000;--navy-2:#000;--royal:#ffe14d;--royal-2:#ffe14d;--sky:#000;--white:#000;--ink:#fff;--muted:#fff;--line:#fff;color-scheme:dark}
 
 *,*::before,*::after{box-sizing:border-box}
-html{font-size:calc(100% * var(--scale));scroll-behavior:smooth;scroll-padding-top:calc(var(--head-h) + 12px)}
+html{overflow-x:hidden;overflow-x:clip;font-size:calc(100% * var(--scale));scroll-behavior:smooth;scroll-padding-top:calc(var(--head-h) + 12px)}
 body{margin:0;background:var(--white);color:var(--ink);font-family:var(--f-body);font-size:1.0625rem;line-height:1.65;direction:rtl;-webkit-font-smoothing:antialiased}
 img,svg{max-width:100%}
 [hidden]{display:none!important}
@@ -150,7 +150,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 }
 
 /* פאנל בקשת הצעה */
-.panel-wrap{position:relative;z-index:5;margin-top:-120px}
+.panel-wrap{position:relative;overflow-x:clip;z-index:5;margin-top:-120px}
 .panel{background:#fff;border-radius:20px;box-shadow:0 30px 60px -30px rgba(6,27,61,.55);border:1px solid var(--line);overflow:hidden}
 :root.hc .panel{background:#000}
 .ptabs{display:flex;gap:4px;padding:10px 12px 0;background:var(--sky);border-bottom:1px solid var(--line);overflow-x:auto;margin:0;border-inline:0;border-top:0}
@@ -179,7 +179,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .consent input{width:22px;height:22px;flex:none;accent-color:var(--royal)}
 .psubmit{padding:12px;display:flex;align-items:center}
 .psubmit .btn{width:100%;min-height:56px;padding-inline:1.8rem;white-space:nowrap}
-.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.hp{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 .pnote{padding:10px 18px 14px;font-size:.9rem;color:var(--muted);border-top:1px solid var(--line);display:flex;gap:10px;align-items:center}
 .pnote svg{width:18px;height:18px;color:var(--royal);flex:none}
 .result{margin:12px;padding:14px 16px;border-radius:12px;background:var(--sky);border:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}

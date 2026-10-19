@@ -10,7 +10,7 @@
   function toast(t) { const el = $("#toast"); el.textContent = t; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => (el.hidden = true), 2400); }
 
   if (!CFG.supabaseUrl || !CFG.supabaseAnonKey || !window.supabase) {
-    document.body.innerHTML = `<div class="setup"><h1>איזור הניהול עוד לא מחובר</h1><p>צריך למלא את פרטי Supabase בקובץ assets/config.js. ההוראות נמצאות במדריך ההתקנה.</p></div>`;
+    document.body.innerHTML = `<div class="setup"><h1>הדף אינו זמין כרגע</h1></div>`;
     return;
   }
   const sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true } });
