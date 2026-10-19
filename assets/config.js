@@ -3,8 +3,8 @@
 // המפתח "anon" מיועד להיות ציבורי; ההגנה על הנתונים היא בהרשאות (RLS) שבמסד הנתונים.
 // כל עוד השדות ריקים, האתר עובד ושולח פניות בוואטסאפ בלבד.
 window.SITE_CONFIG = {
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  supabaseUrl: "https://hskokrvmccalnysvxtrq.supabase.co",
+  supabaseAnonKey: "sb_publishable_oa6XMclm9tcjS6sKKaxL2Q_IPb283hy",
   whatsapp: "972533959643",
   phoneDisplay: "053-395-9643",
   phoneTel: "+972533959643"
