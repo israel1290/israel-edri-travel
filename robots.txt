@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://israel1290.github.io/israel-edri-travel/sitemap.xml

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>כניסה</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="office.css">
+</head>
+<body>
+<main id="login" class="login" hidden>
+  <form id="loginForm" class="login-card" novalidate>
+    <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 31c8-2 18-8 28-17" stroke="#1f5fbf" stroke-width="2" fill="none" stroke-linecap="round"/><text x="24" y="29" text-anchor="middle" font-family="Frank Ruhl Libre,Georgia,serif" font-weight="700" font-size="17" fill="currentColor">י״א</text></svg>
+    <h1>כניסה לניהול</h1>
+    <label for="email">אימייל</label>
+    <input id="email" type="email" autocomplete="username" required dir="ltr">
+    <label for="password">סיסמה</label>
+    <input id="password" type="password" autocomplete="current-password" required dir="ltr">
+    <button class="btn primary" type="submit" id="loginBtn">כניסה</button>
+    <p class="msg" id="loginMsg" role="alert"></p>
+  </form>
+</main>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="top-in">
+      <b class="brand">ניהול · ישראל אדרי</b>
+      <nav class="tabs" aria-label="מקטעים">
+        <button type="button" data-view="overview" aria-pressed="true">סקירה</button>
+        <button type="button" data-view="leads" aria-pressed="false">פניות <span class="badge" id="newBadge" hidden></span></button>
+        <button type="button" data-view="dests" aria-pressed="false">יעדים</button>
+      </nav>
+      <div class="top-tools">
+        <button type="button" class="btn ghost" id="refresh">רענון</button>
+        <button type="button" class="btn ghost" id="logout">יציאה</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="body">
+    <section id="v-overview" class="view">
+      <h1>סקירה</h1>
+      <div class="kpis" id="kpis"></div>
+      <div class="two">
+        <div class="card">
+          <h2>יעדים מבוקשים · 30 יום</h2>
+          <ol class="rank" id="topDests"></ol>
+        </div>
+        <div class="card">
+          <h2>פניות אחרונות</h2>
+          <ul class="recent" id="recent"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="v-leads" class="view" hidden>
+      <div class="bar">
+        <h1>פניות</h1>
+        <div class="filters">
+          <label class="sr-only" for="q">חיפוש</label>
+          <input id="q" type="search" placeholder="חיפוש שם, טלפון או יעד">
+          <label class="sr-only" for="fStatus">סטטוס</label>
+          <select id="fStatus"><option value="">כל הסטטוסים</option><option value="new">חדשה</option><option value="in_progress">בטיפול</option><option value="closed">נסגרה עסקה</option><option value="cancelled">לא רלוונטי</option></select>
+          <button type="button" class="btn" id="csv">ייצוא לאקסל</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="grid">
+          <thead><tr><th>התקבלה</th><th>לקוח</th><th>מסלול</th><th>תאריכים</th><th>נוסעים</th><th>סטטוס</th><th>הערה פנימית</th><th><span class="sr-only">פעולות</span></th></tr></thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+      </div>
+      <p class="hint" id="leadCount"></p>
+    </section>
+
+    <section id="v-dests" class="view" hidden>
+      <div class="bar">
+        <h1>יעדים באתר</h1>
+        <button type="button" class="btn primary" id="addDest">הוספת יעד</button>
+      </div>
+      <p class="hint">השינויים מופיעים באתר מיד אחרי השמירה. ״מסלול דרך״ ריק = טיסה ישירה. מספר נמוך ב״סדר״ מופיע קודם.</p>
+      <div class="table-wrap">
+        <table class="grid dests">
+          <thead><tr><th>שם בעברית</th><th>שם באנגלית</th><th>קוד שדה</th><th>אזור</th><th>קונקשן דרך</th><th>משך</th><th>סדר</th><th>מוצג</th><th><span class="sr-only">פעולות</span></th></tr></thead>
+          <tbody id="destRows"></tbody>
+        </table>
+      </div>
+      <datalist id="regionList"></datalist>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script src="../assets/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+<script src="office.js"></script>
+</body>
+</html>
